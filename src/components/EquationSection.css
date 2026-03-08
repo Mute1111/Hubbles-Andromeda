@@ -1,0 +1,337 @@
+/* ══════════════════════════════
+   EQUATION SECTION
+══════════════════════════════ */
+.equation-section {
+  background: var(--paper);
+  border-top: 1px solid var(--cream);
+}
+
+/* ── formula cards ── */
+.formula-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+  margin: 3rem 0 4rem;
+}
+
+.formula-card {
+  background: var(--night);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (min-width: 600px) {
+  .formula-card { padding: 2.5rem; }
+}
+
+.formula-card--alt {
+  background: #0f1120;
+  border-color: rgba(201, 150, 42, 0.2);
+}
+
+.formula-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--rust), var(--gold));
+}
+
+.formula-card--alt::before {
+  background: linear-gradient(90deg, var(--gold), var(--star-blue));
+}
+
+.formula-card__eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--star-blue);
+  margin-bottom: 0.5rem;
+}
+
+.formula-card__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  color: #e8e0d0;
+  margin-bottom: 1.8rem;
+}
+
+.formula-card__eq {
+  padding: 1.2rem 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* KaTeX inside dark cards — boosted contrast */
+.formula-card .katex {
+  color: #f5edd8;
+  font-size: clamp(1.1rem, 3vw, 1.35rem);
+}
+
+.formula-card__legend {
+  list-style: none;
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formula-card__legend div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.formula-card__legend dt {
+  font-family: 'IBM Plex Mono', monospace;
+  min-width: 1.2rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.formula-card__legend dt .katex {
+  color: var(--gold);
+  font-size: 1rem;
+}
+
+/* ↑ was #6a6460 — too dark on near-black background */
+.formula-card__legend dd {
+  font-size: 0.88rem;
+  color: #8a8278;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ↑ was #5a5450 — nearly invisible on dark card */
+.formula-card__prose {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #7a7268;
+  margin: 0;
+}
+
+/* ── worked example header ── */
+.worked-header {
+  margin-bottom: 2.5rem;
+}
+
+.worked-header h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  color: var(--ink);
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.worked-header h3 em {
+  color: var(--rust);
+  font-style: italic;
+}
+
+.worked-header p {
+  max-width: 640px;
+}
+
+/* ── steps ── */
+.steps {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 4rem;
+  border-left: 1px solid rgba(184, 74, 46, 0.2);
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 1rem;
+  padding: 2rem 0 2rem 1.2rem;
+  border-bottom: 1px solid var(--cream);
+  position: relative;
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+@media (min-width: 600px) {
+  .step {
+    grid-template-columns: 56px 1fr;
+    gap: 1.5rem;
+    padding: 2.5rem 0 2.5rem 2rem;
+  }
+}
+
+.step::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 2.6rem;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid rgba(184, 74, 46, 0.3);
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.step--visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step--visible::before {
+  background: var(--rust);
+  border-color: var(--rust);
+}
+
+.step__number {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(184, 74, 46, 0.4);
+  letter-spacing: 0.05em;
+  padding-top: 0.2rem;
+  text-align: right;
+}
+
+.step--visible .step__number {
+  color: var(--rust);
+}
+
+/* ↑ was var(--muted) = #7a7060 — low contrast on cream */
+.step__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5a5248;
+  margin-bottom: 0.6rem;
+}
+
+.step__summary {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #2e2a26;
+  line-height: 1.8;
+}
+
+.step__formula {
+  padding: 0.9rem 1rem;
+  background: var(--cream);
+  border-left: 2px solid var(--gold);
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.step__formula .katex {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+}
+
+.step__value {
+  padding: 1rem;
+  background: var(--night);
+  text-align: center;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 600px) {
+  .step__value { padding: 1.2rem 1.5rem; }
+}
+
+.step__value .katex {
+  color: #f0e8d0;
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+}
+
+/* ↑ was var(--muted) — improved to a lighter readable tone */
+.step__note {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: #5a5450;
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.step__note-icon {
+  color: var(--gold);
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* ── result callout ── */
+.result-callout {
+  background: var(--night);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(201, 150, 42, 0.15);
+}
+
+@media (min-width: 600px) {
+  .result-callout { padding: 4rem 3rem; }
+}
+
+.result-callout::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(154, 180, 216, 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(201, 150, 42, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.result-callout__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--star-blue);
+  margin-bottom: 1rem;
+}
+
+.result-callout__number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  line-height: 1;
+  color: #f0e8d0;
+  font-style: italic;
+}
+
+.result-callout__unit {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ↑ was #7a7268 — bumped for legibility on dark background */
+.result-callout__prose {
+  max-width: 520px;
+  margin: 0 auto 1.5rem;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: #8a8278;
+}
+
+/* ↑ was #3a3830 — barely readable on dark bg */
+.result-callout__sub {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: #5a5450;
+  margin: 0;
+}

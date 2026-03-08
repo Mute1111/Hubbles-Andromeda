@@ -1,0 +1,108 @@
+/* ══════════════════════════════
+   LOADING SCREEN
+══════════════════════════════ */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #04050c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.loading-screen--exit {
+  opacity: 0;
+  transform: scale(1.03);
+  pointer-events: none;
+}
+
+/* ── pulsing star ── */
+.loading-screen__star {
+  display: block;
+  width: 140px;
+  height: 140px;
+}
+
+/* ── terminal lines ── */
+.loading-screen__terminal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 160px;
+  width: min(420px, 90vw);
+}
+
+.loading-screen__line {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  animation: lineIn 0.35s ease forwards;
+  opacity: 0;
+}
+
+@keyframes lineIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.loading-screen__line--dim {
+  color: #4a4840;
+}
+
+.loading-screen__line--value {
+  color: #e8e0d0;
+  padding-left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.loading-screen__prompt {
+  color: var(--gold);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* ── final result ── */
+.loading-screen__result {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.loading-screen__result--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.loading-screen__result-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--star-blue);
+  margin-bottom: 0.6rem;
+}
+
+.loading-screen__result-number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  line-height: 1;
+  color: #f0e8d0;
+  font-style: italic;
+}
+
+.loading-screen__result-unit {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 0.4rem;
+}

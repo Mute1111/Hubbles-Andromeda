@@ -1,0 +1,377 @@
+/* ══════════════════════════════
+   VISUALIZATION SECTION
+══════════════════════════════ */
+.viz-section {
+  background: var(--cream);
+  border-top: 1px solid #ddd5c0;
+}
+
+.viz-intro {
+  max-width: 620px;
+  margin-bottom: 3rem;
+  color: #2e2a26;
+}
+
+/* ── two-column layout ── */
+.viz-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 780px) {
+  .viz-layout { grid-template-columns: 1fr; }
+}
+
+/* ── star canvas ── */
+.star-canvas {
+  display: block;
+  width: 100%;
+  max-width: 310px;
+  height: auto;
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 1.8rem;
+}
+
+/* ── controls ── */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.control-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+/* ↑ was var(--muted) = #7a7060 — too low contrast on cream */
+.control-label span:first-child {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4a4238;
+}
+
+/* ↑ was 0.85rem, kept but contrast improved */
+.control-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.88rem;
+  color: var(--rust) !important;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* ── sliders ── */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(
+    to right,
+    var(--rust) 0%,
+    var(--rust) calc(var(--pct, 50%) * 1%),
+    #2a2520 calc(var(--pct, 50%) * 1%)
+  );
+  outline: none;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.slider--gold {
+  background: linear-gradient(
+    to right,
+    var(--gold) 0%,
+    var(--gold) calc(var(--pct, 50%) * 1%),
+    #2a2520 calc(var(--pct, 50%) * 1%)
+  );
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--rust);
+  border: 2px solid var(--cream);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(184,74,46,0.5);
+  transition: transform 0.15s ease;
+}
+
+.slider--gold::-webkit-slider-thumb {
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(201,150,42,0.5);
+}
+
+.slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+.slider::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--rust);
+  border: 2px solid var(--cream);
+  cursor: pointer;
+}
+
+/* ↑ was #aaa090 at 0.58rem — too faint and too small */
+.slider-hints {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: #6a6050;
+  letter-spacing: 0.04em;
+}
+
+/* ── Hubble button ── */
+.hubble-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid rgba(184,74,46,0.5);
+  color: var(--rust);
+  padding: 0.75rem 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  border-radius: 0;
+  align-self: flex-start;
+}
+
+.hubble-btn:hover {
+  background: var(--rust);
+  color: var(--cream);
+  border-color: var(--rust);
+}
+
+/* ── right panel ── */
+.viz-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ══════════════════════════════
+   CALCULATION PANEL
+══════════════════════════════ */
+.calc-panel {
+  background: var(--night);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .calc-panel { padding: 2rem; }
+}
+
+.calc-panel__title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--star-blue);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+/* ↑ was 130px — collapses badly on mobile; auto label column now */
+.calc-row {
+  display: grid;
+  grid-template-columns: minmax(90px, 120px) 1fr;
+  gap: 0.4rem 0.8rem;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.calc-row--derived {
+  grid-template-rows: auto auto;
+  background: rgba(255,255,255,0.03);
+  padding: 0.75rem 0.5rem;
+  margin: 0 -0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ↑ was #5a5450 — too dark on near-black background */
+.calc-row__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.07em;
+  color: #8a8278;
+  grid-row: 1;
+  line-height: 1.4;
+}
+
+/* ↑ was #4a4440 — nearly invisible on dark bg */
+.calc-row--derived .calc-row__label {
+  color: #7a7268;
+}
+
+.calc-row__eq {
+  grid-row: 1;
+  grid-column: 2;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ↑ was #d0c8b0 — decent, but bumped for crispness */
+.calc-row__eq .katex {
+  color: #e8e0cc;
+  font-size: 0.95rem;
+}
+
+.calc-row__formula {
+  grid-row: 2;
+  grid-column: 2;
+  margin-top: 0.3rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ↑ was #4a4848 — practically invisible on dark bg, the worst offender */
+.calc-row__formula .katex {
+  color: #6a6460;
+  font-size: 0.8rem;
+}
+
+.calc-divider {
+  height: 1px;
+  background: rgba(201,150,42,0.25);
+  margin: 1rem 0;
+}
+
+.calc-result {
+  text-align: center;
+  padding: 0.8rem 0 0.4rem;
+}
+
+/* ↑ removed opacity: 0.7 — was dimming already-muted gold unnecessarily */
+.calc-result__label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+
+.calc-result__value .katex-display {
+  margin: 0;
+}
+
+.calc-result__value .katex {
+  color: #f0e8d0;
+  font-size: 1rem;
+}
+
+/* ══════════════════════════════
+   DISTANCE METER
+══════════════════════════════ */
+.distance-meter {
+  background: var(--night);
+  border: 1px solid rgba(201,150,42,0.2);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .distance-meter { padding: 1.8rem; }
+}
+
+.distance-meter__number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-style: italic;
+  color: #f0e8d0;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+
+/* ↑ was 0.65rem — too small; bumped and contrast improved */
+.distance-meter__context {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--star-blue);
+  margin-bottom: 1.8rem;
+  min-height: 1.4em;
+  line-height: 1.5;
+}
+
+/* ── scale bar ── */
+.scale-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ↑ was #3a3830 on dark bg — barely readable */
+.scale-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: #7a7268;
+  letter-spacing: 0.04em;
+}
+
+.scale-bar {
+  position: relative;
+  height: 6px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 3px;
+  overflow: visible;
+}
+
+.scale-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rust), var(--gold));
+  border-radius: 3px;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scale-bar__marker--andromeda {
+  position: absolute;
+  top: -3px;
+  left: 60%;
+  width: 2px;
+  height: 12px;
+  background: rgba(154,180,216,0.7);
+  border-radius: 1px;
+}
+
+.scale-bar__marker--andromeda::after {
+  content: 'M31';
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--star-blue);
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
+/* ↑ was #2a2820 — essentially invisible on dark bg */
+.scale-bar-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: #5a5450;
+  letter-spacing: 0.03em;
+}
