@@ -354,7 +354,7 @@
 }
 
 .scale-bar__marker--andromeda::after {
-  content: 'M31';
+  content: 'M31 today';
   position: absolute;
   top: -18px;
   left: 50%;
@@ -364,6 +364,77 @@
   color: var(--star-blue);
   white-space: nowrap;
   opacity: 0.85;
+}
+
+/* Hubble's 1923 estimate marker — rust coloured, sits at ~900k ly (~57% of bar) */
+.scale-bar__marker--hubble1923 {
+  position: absolute;
+  top: -3px;
+  left: 57%;
+  width: 2px;
+  height: 12px;
+  background: rgba(184, 74, 46, 0.85);
+  border-radius: 1px;
+  animation: markerIn 0.4s ease forwards;
+}
+
+.scale-bar__marker--hubble1923::after {
+  content: '1923';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--rust);
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
+@keyframes markerIn {
+  from { opacity: 0; transform: scaleY(0); }
+  to   { opacity: 1; transform: scaleY(1); }
+}
+
+/* ── Hubble discrepancy note ── */
+.hubble-discrepancy-note {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(184, 74, 46, 0.2);
+  border-left: 2px solid var(--rust);
+  background: rgba(184, 74, 46, 0.04);
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.hubble-discrepancy-note__legend {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: #a09888;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.hdn-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.hdn-dot--1923  { background: var(--rust); }
+.hdn-dot--modern { background: var(--star-blue); }
+.hdn-sep { color: #3a3830; }
+
+.hubble-discrepancy-note__body {
+  font-family: 'Lora', serif;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #8a8278;
 }
 
 /* ↑ was #2a2820 — essentially invisible on dark bg */

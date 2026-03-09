@@ -154,6 +154,9 @@ export default function CepheidVisualization() {
   const distPc  = parseFloat(Math.pow(10, (modulus + 5) / 5).toFixed(0));
   const distLy  = distPc * 3.26156;
 
+  // true whenever sliders match Hubble's original 1923 inputs
+  const isHubbleValues = Math.abs(period - 31.415) < 0.05 && Math.abs(appMag - 18.7) < 0.05;
+
   const resetToHubble = () => {
     setPeriod(31.415);
     setAppMag(18.7);
@@ -304,10 +307,18 @@ export default function CepheidVisualization() {
                       ))}%`
                     }}
                   />
+                  {/* modern true distance — always visible */}
                   <div
                     className="scale-bar__marker scale-bar__marker--andromeda"
-                    title="Andromeda (2.537M ly)"
+                    title="Modern value: 2.537M ly"
                   />
+                  {/* Hubble's 1923 estimate — appears only when his values are loaded */}
+                  {isHubbleValues && (
+                    <div
+                      className="scale-bar__marker scale-bar__marker--hubble1923"
+                      title="Hubble's 1923 estimate: ~900,000 ly"
+                    />
+                  )}
                 </div>
                 <div className="scale-bar-ticks">
                   <span>10 ly</span>
@@ -316,6 +327,24 @@ export default function CepheidVisualization() {
                   <span>10B ly</span>
                 </div>
               </div>
+
+              {/* discrepancy note — only when Hubble's values are active */}
+              {isHubbleValues && (
+                <div className="hubble-discrepancy-note">
+                  <div className="hubble-discrepancy-note__legend">
+                    <span className="hdn-dot hdn-dot--1923" /> Hubble 1923: ~900,000 ly
+                    <span className="hdn-sep">·</span>
+                    <span className="hdn-dot hdn-dot--modern" /> Modern: 2.537M ly
+                  </div>
+                  <div className="hubble-discrepancy-note__body">
+                    Same method, same star — but Hertzsprung's calibration placed
+                    Cepheid luminosities ~3× too faint. Walter Baade corrected this
+                    in 1952 and the distance tripled. Hubble's conclusion stood;
+                    only the number changed.
+                  </div>
+                </div>
+              )}
+
             </div>
 
           </div>
