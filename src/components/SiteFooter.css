@@ -24,6 +24,7 @@
   padding: 0.85rem 0;
 }
 
+/* Pause on touch-hold as well as hover */
 .site-footer__ticker:hover { animation-play-state: paused; }
 
 @keyframes ticker-scroll {
@@ -35,13 +36,17 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0 2.5rem;
+  padding: 0 2rem; /* slightly tighter on mobile */
   border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+@media (min-width: 600px) {
+  .site-footer__ticker-item { padding: 0 2.5rem; }
+}
+
 .ticker-year  { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;  color: var(--rust);  letter-spacing: 0.1em; }
-.ticker-name  { font-family: 'Playfair Display', serif;  font-size: 0.85rem; color: #e8e0d0;      font-style: italic; }
-.ticker-role  { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;  color: #a09888;      letter-spacing: 0.06em; text-transform: uppercase; }
+.ticker-name  { font-family: 'Playfair Display', serif;  font-size: clamp(0.78rem, 2.2vw, 0.85rem); color: #e8e0d0; font-style: italic; }
+.ticker-role  { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;  color: #a09888; letter-spacing: 0.06em; text-transform: uppercase; }
 
 /* ══════════════════════════════
    MAIN ROW
@@ -49,15 +54,20 @@
 .site-footer__inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 2.2rem 2rem;
+  padding: 1.75rem 1.25rem; /* tighter on mobile */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .site-footer__inner { padding: 2.2rem 2rem; gap: 2rem; }
 }
 
 @media (max-width: 600px) {
-  .site-footer__inner { flex-direction: column; align-items: flex-start; gap: 1.6rem; }
+  .site-footer__inner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
 }
 
 .site-footer__title  { font-family: 'Playfair Display', serif;  font-size: 1rem;    color: #f0ece0; margin-bottom: 0.3rem; }
@@ -73,10 +83,12 @@
   flex-direction: column;
   gap: 0.5rem;
   flex-shrink: 0;
+  /* Full width on mobile so buttons don't feel cramped */
+  width: 100%;
 }
 
 @media (min-width: 600px) {
-  .site-footer__links { flex-direction: row; }
+  .site-footer__links { flex-direction: row; width: auto; }
 }
 
 .site-footer__icon-link {
@@ -88,10 +100,17 @@
   letter-spacing: 0.08em;
   color: #c8c0b0;
   text-decoration: none;
-  padding: 0.5rem 0.9rem;
+  /* Larger tap target on mobile, consistent with other buttons */
+  padding: 0.75rem 1rem;
+  min-height: 44px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: color 0.2s, border-color 0.2s, background 0.2s;
   white-space: nowrap;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .site-footer__icon-link { padding: 0.5rem 0.9rem; min-height: unset; }
 }
 
 .site-footer__icon-link:hover {
@@ -106,8 +125,8 @@
   background: rgba(201, 150, 42, 0.06);
 }
 
-.site-footer__icon-link svg         { flex-shrink: 0; opacity: 0.8; transition: opacity 0.2s; }
-.site-footer__icon-link:hover svg   { opacity: 1; }
+.site-footer__icon-link svg       { flex-shrink: 0; opacity: 0.8; transition: opacity 0.2s; }
+.site-footer__icon-link:hover svg { opacity: 1; }
 
 /* ══════════════════════════════
    BOTTOM BAR
@@ -115,7 +134,7 @@
 .site-footer__bottom {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0.85rem 2rem 1.1rem;
+  padding: 0.85rem 1.25rem 1.1rem; /* match inner padding on mobile */
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-wrap: wrap;
@@ -125,6 +144,11 @@
   font-size: 0.6rem;
   letter-spacing: 0.08em;
   color: #8a8278;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .site-footer__bottom { padding: 0.85rem 2rem 1.1rem; }
 }
 
 .site-footer__sep { color: #4a4840; }

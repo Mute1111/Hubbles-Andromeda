@@ -10,8 +10,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2.5rem;
+  gap: 2rem;        /* tighter on mobile */
   transition: opacity 0.8s ease, transform 0.8s ease;
+  padding: 1.5rem;  /* prevent content touching edges on small screens */
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .loading-screen { gap: 2.5rem; padding: 0; }
 }
 
 .loading-screen--exit {
@@ -23,8 +29,9 @@
 /* ── pulsing star ── */
 .loading-screen__star {
   display: block;
-  width: 140px;
-  height: 140px;
+  /* Shrinks on small screens so it doesn't crowd the terminal */
+  width: clamp(80px, 25vw, 140px);
+  height: clamp(80px, 25vw, 140px);
 }
 
 /* ── terminal lines ── */
@@ -32,17 +39,25 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  min-height: 160px;
+  min-height: 140px;  /* slightly reduced floor on mobile */
   width: min(420px, 90vw);
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .loading-screen__terminal { min-height: 160px; }
 }
 
 .loading-screen__line {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
+  font-size: clamp(0.68rem, 2vw, 0.75rem); /* fluid, won't go tiny on 320px */
   letter-spacing: 0.06em;
   line-height: 1.6;
   animation: lineIn 0.35s ease forwards;
   opacity: 0;
+  /* Prevent long terminal strings from breaking layout */
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 @keyframes lineIn {
@@ -64,7 +79,7 @@
 
 .loading-screen__prompt {
   color: var(--gold);
-  font-size: 0.8rem;
+  font-size: clamp(0.72rem, 2vw, 0.8rem);
   flex-shrink: 0;
 }
 
@@ -92,7 +107,8 @@
 
 .loading-screen__result-number {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.8rem, 8vw, 5rem);
+  /* Raised vw middle value; floor lowered to match equation section pattern */
+  font-size: clamp(2.25rem, 10vw, 5rem);
   line-height: 1;
   color: #f0e8d0;
   font-style: italic;
@@ -100,7 +116,7 @@
 
 .loading-screen__result-unit {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
+  font-size: clamp(0.68rem, 2vw, 0.75rem);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);

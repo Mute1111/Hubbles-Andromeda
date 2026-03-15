@@ -9,17 +9,27 @@
 /* ── formula cards ── */
 .formula-cards {
   display: grid;
+  /* Single column on narrow screens, multi-column when space allows */
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: 1.5rem;
-  margin: 3rem 0 4rem;
+  gap: 1rem;          /* tighter gap on mobile */
+  margin: 2rem 0 3rem; /* reduced top/bottom margin on mobile */
+}
+
+@media (min-width: 600px) {
+  .formula-cards {
+    gap: 1.5rem;
+    margin: 3rem 0 4rem;
+  }
 }
 
 .formula-card {
   background: var(--night);
-  padding: 2rem;
+  padding: 1.5rem;    /* tighter on mobile */
   position: relative;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.06);
+  min-width: 0;       /* prevent grid blowout */
+  box-sizing: border-box;
 }
 
 @media (min-width: 600px) {
@@ -54,30 +64,39 @@
 
 .formula-card__title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.15rem;
+  font-size: 1.1rem;  /* slightly smaller floor on mobile */
   color: #e8e0d0;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.4rem;
+}
+
+@media (min-width: 600px) {
+  .formula-card__title { font-size: 1.15rem; margin-bottom: 1.8rem; }
 }
 
 .formula-card__eq {
-  padding: 1.2rem 1rem;
+  padding: 1rem 0.75rem; /* tighter horizontal padding so KaTeX has more room */
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+@media (min-width: 600px) {
+  .formula-card__eq { padding: 1.2rem 1rem; margin-bottom: 1.5rem; }
 }
 
 /* KaTeX inside dark cards — boosted contrast */
 .formula-card .katex {
   color: #f5edd8;
-  font-size: clamp(1.1rem, 3vw, 1.35rem);
+  font-size: clamp(1rem, 4vw, 1.35rem); /* raised vw unit so it scales better */
 }
 
 .formula-card__legend {
   list-style: none;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -101,7 +120,6 @@
   font-size: 1rem;
 }
 
-/* ↑ was #6a6460 — too dark on near-black background */
 .formula-card__legend dd {
   font-size: 0.88rem;
   color: #8a8278;
@@ -109,7 +127,6 @@
   margin: 0;
 }
 
-/* ↑ was #5a5450 — nearly invisible on dark card */
 .formula-card__prose {
   font-size: 0.9rem;
   line-height: 1.8;
@@ -119,12 +136,16 @@
 
 /* ── worked example header ── */
 .worked-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 600px) {
+  .worked-header { margin-bottom: 2.5rem; }
 }
 
 .worked-header h3 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  font-size: clamp(1.25rem, 5vw, 2.1rem); /* raised vw so it scales smoothly */
   color: var(--ink);
   margin-bottom: 1rem;
   line-height: 1.3;
@@ -143,20 +164,45 @@
 .steps {
   display: flex;
   flex-direction: column;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
   border-left: 1px solid rgba(184, 74, 46, 0.2);
+}
+
+@media (min-width: 600px) {
+  .steps { margin-bottom: 4rem; }
 }
 
 .step {
   display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 1rem;
-  padding: 2rem 0 2rem 1.2rem;
+  /* On very small screens collapse the step number above content */
+  grid-template-columns: 36px 1fr;
+  gap: 0.75rem;
+  padding: 1.5rem 0 1.5rem 1rem;
   border-bottom: 1px solid var(--cream);
   position: relative;
   opacity: 0;
   transform: translateX(-16px);
   transition: opacity 0.65s ease, transform 0.65s ease;
+  box-sizing: border-box;
+  min-width: 0; /* prevent grid blowout */
+}
+
+/* Collapse to single-column on very narrow screens */
+@media (max-width: 359px) {
+  .step {
+    grid-template-columns: 1fr;
+    padding-left: 1rem;
+  }
+  .step__number {
+    text-align: left !important;
+  }
+}
+
+@media (min-width: 360px) {
+  .step {
+    grid-template-columns: 44px 1fr;
+    gap: 1rem;
+  }
 }
 
 @media (min-width: 600px) {
@@ -171,12 +217,16 @@
   content: '';
   position: absolute;
   left: -5px;
-  top: 2.6rem;
+  top: 2rem;          /* adjusted for tighter mobile padding */
   width: 9px; height: 9px;
   border-radius: 50%;
   background: var(--cream);
   border: 2px solid rgba(184, 74, 46, 0.3);
   transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+@media (min-width: 600px) {
+  .step::before { top: 2.6rem; }
 }
 
 .step--visible {
@@ -202,61 +252,71 @@
   color: var(--rust);
 }
 
-/* ↑ was var(--muted) = #7a7060 — low contrast on cream */
 .step__label {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #5a5248;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .step__summary {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.95rem;  /* slightly tighter on mobile */
+  margin-bottom: 0.85rem;
   color: #2e2a26;
-  line-height: 1.8;
-}
-
-.step__formula {
-  padding: 0.9rem 1rem;
-  background: var(--cream);
-  border-left: 2px solid var(--gold);
-  margin-bottom: 1rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.step__formula .katex {
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-}
-
-.step__value {
-  padding: 1rem;
-  background: var(--night);
-  text-align: center;
-  margin-bottom: 1rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  line-height: 1.75;
 }
 
 @media (min-width: 600px) {
-  .step__value { padding: 1.2rem 1.5rem; }
+  .step__summary { font-size: 1rem; margin-bottom: 1rem; }
+}
+
+.step__formula {
+  padding: 0.75rem;   /* tighter on mobile */
+  background: var(--cream);
+  border-left: 2px solid var(--gold);
+  margin-bottom: 0.85rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .step__formula { padding: 0.9rem 1rem; margin-bottom: 1rem; }
+}
+
+.step__formula .katex {
+  font-size: clamp(0.9rem, 3vw, 1.1rem); /* raised vw so it scales on mid-size screens */
+}
+
+.step__value {
+  padding: 0.85rem 0.75rem; /* tighter on mobile */
+  background: var(--night);
+  text-align: center;
+  margin-bottom: 0.85rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .step__value { padding: 1.2rem 1.5rem; margin-bottom: 1rem; }
 }
 
 .step__value .katex {
   color: #f0e8d0;
-  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  font-size: clamp(0.85rem, 3vw, 1.05rem); /* raised vw */
 }
 
-/* ↑ was var(--muted) — improved to a lighter readable tone */
 .step__note {
-  font-size: 0.9rem;
-  line-height: 1.75;
+  font-size: 0.875rem;
+  line-height: 1.7;
   color: #5a5450;
   display: flex;
-  gap: 0.6rem;
+  gap: 0.5rem;
   align-items: flex-start;
 }
 
@@ -270,7 +330,7 @@
 /* ── result callout ── */
 .result-callout {
   background: var(--night);
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1.25rem; /* tighter on mobile */
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -297,12 +357,13 @@
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--star-blue);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .result-callout__number {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 10vw, 7rem);
+  /* Raised floor from 3rem → 2.25rem so it doesn't overflow at 320px */
+  font-size: clamp(2.25rem, 15vw, 7rem);
   line-height: 1;
   color: #f0e8d0;
   font-style: italic;
@@ -315,19 +376,25 @@
   text-transform: uppercase;
   color: var(--gold);
   margin-top: 0.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-/* ↑ was #7a7268 — bumped for legibility on dark background */
+@media (min-width: 600px) {
+  .result-callout__unit { margin-bottom: 2rem; }
+}
+
 .result-callout__prose {
   max-width: 520px;
-  margin: 0 auto 1.5rem;
-  font-size: 1rem;
-  line-height: 1.9;
+  margin: 0 auto 1.25rem;
+  font-size: 0.95rem;  /* slightly smaller on mobile */
+  line-height: 1.85;
   color: #8a8278;
 }
 
-/* ↑ was #3a3830 — barely readable on dark bg */
+@media (min-width: 600px) {
+  .result-callout__prose { font-size: 1rem; margin-bottom: 1.5rem; }
+}
+
 .result-callout__sub {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.65rem;

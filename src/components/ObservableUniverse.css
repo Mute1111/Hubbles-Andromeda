@@ -26,12 +26,16 @@
 
 /* ── stage ── */
 .universe-stage {
-  margin-top: 3rem;
+  margin-top: 2rem; /* tighter on mobile */
   background: #05060d;
   border-top: 1px solid rgba(255,255,255,0.04);
   border-bottom: 1px solid rgba(255,255,255,0.04);
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .universe-stage { margin-top: 3rem; }
 }
 
 /* ── zoom nav ── */
@@ -40,7 +44,13 @@
   overflow-x: auto;
   scrollbar-width: none;
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding: 0 1.5rem;
+  padding: 0 1rem; /* tighter on mobile */
+  /* Momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 600px) {
+  .zoom-nav { padding: 0 1.5rem; }
 }
 
 .zoom-nav::-webkit-scrollbar { display: none; }
@@ -49,20 +59,26 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 1rem 1.2rem;
+  /* Larger tap target on mobile */
+  padding: 0.9rem 1rem;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
   white-space: nowrap;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.72rem;
+  font-size: clamp(0.65rem, 2vw, 0.72rem);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #5a5650;
   transition: color 0.2s, border-color 0.2s;
   margin-bottom: -1px;
   border-radius: 0;
+  min-height: 44px; /* minimum touch target, consistent with hubble-btn */
+}
+
+@media (min-width: 600px) {
+  .zoom-btn { padding: 1rem 1.2rem; min-height: unset; }
 }
 
 .zoom-btn:hover {
@@ -107,20 +123,26 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 2rem;
-  padding: 1.8rem 2rem;
+  gap: 1rem;         /* tighter on mobile */
+  padding: 1.25rem 1rem; /* tighter on mobile */
   border-top: 1px solid rgba(255,255,255,0.04);
   opacity: 1;
   transition: opacity 0.35s ease;
+  box-sizing: border-box;
 }
 
-.universe-info--fade { opacity: 0; }
+@media (min-width: 600px) {
+  .universe-info { gap: 2rem; padding: 1.8rem 2rem; }
+}
 
+/* Stack at same breakpoint as viz-layout for consistency */
 @media (max-width: 600px) {
   .universe-info { flex-direction: column; gap: 1rem; }
 }
 
-.universe-info__left { flex: 1; }
+.universe-info--fade { opacity: 0; }
+
+.universe-info__left { flex: 1; min-width: 0; } /* min-width: 0 prevents flex blowout */
 
 .universe-info__level {
   font-family: 'IBM Plex Mono', monospace;
@@ -132,21 +154,26 @@
 
 .universe-info__title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem); /* fluid, matches worked-header pattern */
   color: #e8e0d0;
   margin-bottom: 0.5rem;
 }
 
 .universe-info__desc {
-  font-size: 0.95rem;
+  font-size: clamp(0.875rem, 2.5vw, 0.95rem);
   line-height: 1.75;
   color: #7a7268;
   max-width: 460px;
 }
 
+/* On mobile, right block aligns left to match stacked layout */
 .universe-info__right {
   text-align: right;
   flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .universe-info__right { text-align: left; }
 }
 
 .universe-info__scale-label {
@@ -160,14 +187,14 @@
 
 .universe-info__scale {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.9rem;
+  font-size: clamp(0.78rem, 2vw, 0.9rem);
   color: var(--gold);
   margin-bottom: 0.3rem;
 }
 
 .universe-info__range {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.7rem;
+  font-size: clamp(0.62rem, 1.8vw, 0.7rem);
   color: #5a5850;
 }
 
@@ -176,8 +203,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem 1.5rem;
+  padding: 0.85rem 1rem 1.25rem; /* tighter on mobile */
   border-top: 1px solid rgba(255,255,255,0.03);
+}
+
+@media (min-width: 600px) {
+  .universe-arrows { padding: 1rem 2rem 1.5rem; }
 }
 
 .arrow-btn {
@@ -187,10 +218,18 @@
   background: none;
   border: 1px solid rgba(255,255,255,0.1);
   color: #6a6460;
-  padding: 0.6rem 1.2rem;
+  /* Larger tap area on mobile, consistent with other buttons */
+  padding: 0.75rem 1rem;
   cursor: pointer;
   transition: color 0.2s, border-color 0.2s;
   border-radius: 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .arrow-btn { padding: 0.6rem 1.2rem; min-height: unset; }
 }
 
 .arrow-btn:hover:not(:disabled) {
@@ -209,12 +248,17 @@
   align-items: center;
 }
 
+/* Slightly larger dot tap targets on mobile */
 .arrow-dot {
-  width: 6px; height: 6px;
+  width: 8px; height: 8px; /* bumped from 6px for touch */
   border-radius: 50%;
   background: rgba(255,255,255,0.1);
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
+}
+
+@media (min-width: 600px) {
+  .arrow-dot { width: 6px; height: 6px; }
 }
 
 .arrow-dot:hover { background: rgba(255,255,255,0.25); transform: scale(1.3); }
@@ -226,12 +270,16 @@
 
 /* ── coda ── */
 .universe-coda {
-  padding: 5rem 0 6rem;
+  padding: 3rem 0 4rem; /* tighter on mobile */
   max-width: 680px;
 }
 
+@media (min-width: 600px) {
+  .universe-coda { padding: 5rem 0 6rem; }
+}
+
 .universe-coda p {
-  font-size: 1.05rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
   line-height: 1.9;
   color: #6a6460;
   margin-bottom: 1.2rem;

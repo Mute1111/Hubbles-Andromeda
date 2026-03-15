@@ -8,8 +8,12 @@
 
 .viz-intro {
   max-width: 620px;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;  /* tighter on mobile */
   color: #2e2a26;
+}
+
+@media (min-width: 600px) {
+  .viz-intro { margin-bottom: 3rem; }
 }
 
 /* ── two-column layout ── */
@@ -20,8 +24,12 @@
   align-items: start;
 }
 
+/* Stack to single column earlier, consistent with other sections */
 @media (max-width: 780px) {
-  .viz-layout { grid-template-columns: 1fr; }
+  .viz-layout {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
 }
 
 /* ── star canvas ── */
@@ -31,14 +39,27 @@
   max-width: 310px;
   height: auto;
   border: 1px solid rgba(255,255,255,0.05);
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.5rem;
+  box-sizing: border-box;
+}
+
+@media (max-width: 780px) {
+  /* On mobile, let canvas fill available width up to its natural max */
+  .star-canvas {
+    max-width: 100%;
+    margin-bottom: 1.25rem;
+  }
 }
 
 /* ── controls ── */
 .controls {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 1.5rem;  /* slightly tighter on mobile */
+}
+
+@media (min-width: 600px) {
+  .controls { gap: 1.8rem; }
 }
 
 .control-group {
@@ -54,7 +75,6 @@
   gap: 0.5rem;
 }
 
-/* ↑ was var(--muted) = #7a7060 — too low contrast on cream */
 .control-label span:first-child {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.72rem;
@@ -63,7 +83,6 @@
   color: #4a4238;
 }
 
-/* ↑ was 0.85rem, kept but contrast improved */
 .control-value {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.88rem;
@@ -87,6 +106,7 @@
   outline: none;
   cursor: pointer;
   border-radius: 2px;
+  box-sizing: border-box;
 }
 
 .slider--gold {
@@ -98,15 +118,22 @@
   );
 }
 
+/* Larger thumb on mobile for better touch targeting */
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 18px; height: 18px;
+  width: 22px; height: 22px;  /* bumped from 18px for touch */
   border-radius: 50%;
   background: var(--rust);
   border: 2px solid var(--cream);
   cursor: pointer;
   box-shadow: 0 0 8px rgba(184,74,46,0.5);
   transition: transform 0.15s ease;
+}
+
+@media (min-width: 600px) {
+  .slider::-webkit-slider-thumb {
+    width: 18px; height: 18px;  /* restore desktop size */
+  }
 }
 
 .slider--gold::-webkit-slider-thumb {
@@ -117,14 +144,19 @@
 .slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
 .slider::-moz-range-thumb {
-  width: 18px; height: 18px;
+  width: 22px; height: 22px;  /* bumped for touch */
   border-radius: 50%;
   background: var(--rust);
   border: 2px solid var(--cream);
   cursor: pointer;
 }
 
-/* ↑ was #aaa090 at 0.58rem — too faint and too small */
+@media (min-width: 600px) {
+  .slider::-moz-range-thumb {
+    width: 18px; height: 18px;
+  }
+}
+
 .slider-hints {
   display: flex;
   justify-content: space-between;
@@ -143,11 +175,20 @@
   background: transparent;
   border: 1px solid rgba(184,74,46,0.5);
   color: var(--rust);
-  padding: 0.75rem 1.2rem;
+  /* Bigger tap target on mobile */
+  padding: 0.9rem 1.2rem;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s;
   border-radius: 0;
   align-self: flex-start;
+  /* Ensure minimum tap target height */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (min-width: 600px) {
+  .hubble-btn { padding: 0.75rem 1.2rem; min-height: unset; }
 }
 
 .hubble-btn:hover {
@@ -160,7 +201,11 @@
 .viz-right {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
+
+@media (min-width: 600px) {
+  .viz-right { gap: 1.5rem; }
 }
 
 /* ══════════════════════════════
@@ -169,7 +214,9 @@
 .calc-panel {
   background: var(--night);
   border: 1px solid rgba(255,255,255,0.08);
-  padding: 1.5rem;
+  padding: 1.25rem 1rem; /* tighter on mobile */
+  box-sizing: border-box;
+  min-width: 0; /* prevent grid blowout */
 }
 
 @media (min-width: 600px) {
@@ -182,30 +229,52 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--star-blue);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   padding-bottom: 0.8rem;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
-/* ↑ was 130px — collapses badly on mobile; auto label column now */
+@media (min-width: 600px) {
+  .calc-panel__title { margin-bottom: 1.5rem; }
+}
+
+/* Fluid label column: shrinks on small screens, stays readable */
 .calc-row {
   display: grid;
-  grid-template-columns: minmax(90px, 120px) 1fr;
-  gap: 0.4rem 0.8rem;
+  grid-template-columns: minmax(70px, 100px) 1fr; /* narrower label on mobile */
+  gap: 0.4rem 0.6rem;
   align-items: center;
-  padding: 0.65rem 0;
+  padding: 0.6rem 0;
   border-bottom: 1px solid rgba(255,255,255,0.05);
+  min-width: 0;
+}
+
+@media (min-width: 600px) {
+  .calc-row {
+    grid-template-columns: minmax(90px, 120px) 1fr; /* restore desktop width */
+    gap: 0.4rem 0.8rem;
+    padding: 0.65rem 0;
+  }
+}
+
+/* On very small screens, stack label above value */
+@media (max-width: 359px) {
+  .calc-row {
+    grid-template-columns: 1fr;
+  }
+  .calc-row__eq {
+    grid-column: 1 !important;
+  }
 }
 
 .calc-row--derived {
   grid-template-rows: auto auto;
   background: rgba(255,255,255,0.03);
-  padding: 0.75rem 0.5rem;
+  padding: 0.65rem 0.5rem;
   margin: 0 -0.5rem;
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* ↑ was #5a5450 — too dark on near-black background */
 .calc-row__label {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.65rem;
@@ -215,7 +284,6 @@
   line-height: 1.4;
 }
 
-/* ↑ was #4a4440 — nearly invisible on dark bg */
 .calc-row--derived .calc-row__label {
   color: #7a7268;
 }
@@ -225,12 +293,12 @@
   grid-column: 2;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
 
-/* ↑ was #d0c8b0 — decent, but bumped for crispness */
 .calc-row__eq .katex {
   color: #e8e0cc;
-  font-size: 0.95rem;
+  font-size: clamp(0.82rem, 2.5vw, 0.95rem); /* fluid, consistent with equation section */
 }
 
 .calc-row__formula {
@@ -239,33 +307,44 @@
   margin-top: 0.3rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  max-width: 100%;
 }
 
-/* ↑ was #4a4848 — practically invisible on dark bg, the worst offender */
 .calc-row__formula .katex {
   color: #6a6460;
-  font-size: 0.8rem;
+  font-size: clamp(0.72rem, 2vw, 0.8rem);
 }
 
 .calc-divider {
   height: 1px;
   background: rgba(201,150,42,0.25);
-  margin: 1rem 0;
+  margin: 0.85rem 0;
+}
+
+@media (min-width: 600px) {
+  .calc-divider { margin: 1rem 0; }
 }
 
 .calc-result {
   text-align: center;
-  padding: 0.8rem 0 0.4rem;
+  padding: 0.7rem 0 0.4rem;
 }
 
-/* ↑ removed opacity: 0.7 — was dimming already-muted gold unnecessarily */
+@media (min-width: 600px) {
+  .calc-result { padding: 0.8rem 0 0.4rem; }
+}
+
 .calc-result__label {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+
+@media (min-width: 600px) {
+  .calc-result__label { margin-bottom: 0.8rem; }
 }
 
 .calc-result__value .katex-display {
@@ -274,7 +353,7 @@
 
 .calc-result__value .katex {
   color: #f0e8d0;
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
 
 /* ══════════════════════════════
@@ -283,8 +362,10 @@
 .distance-meter {
   background: var(--night);
   border: 1px solid rgba(201,150,42,0.2);
-  padding: 1.5rem;
+  padding: 1.25rem 1rem; /* tighter on mobile */
   text-align: center;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 @media (min-width: 600px) {
@@ -293,22 +374,26 @@
 
 .distance-meter__number {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  /* Consistent clamp pattern with equation section */
+  font-size: clamp(1.35rem, 4vw, 2.1rem);
   font-style: italic;
   color: #f0e8d0;
   margin-bottom: 0.5rem;
   transition: color 0.3s;
 }
 
-/* ↑ was 0.65rem — too small; bumped and contrast improved */
 .distance-meter__context {
   font-family: 'IBM Plex Mono', monospace;
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--star-blue);
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.5rem;
   min-height: 1.4em;
   line-height: 1.5;
+}
+
+@media (min-width: 600px) {
+  .distance-meter__context { margin-bottom: 1.8rem; }
 }
 
 /* ── scale bar ── */
@@ -318,7 +403,6 @@
   gap: 0.5rem;
 }
 
-/* ↑ was #3a3830 on dark bg — barely readable */
 .scale-bar-labels {
   display: flex;
   justify-content: space-between;
@@ -366,7 +450,6 @@
   opacity: 0.85;
 }
 
-/* Hubble's 1923 estimate marker — rust coloured, sits at ~900k ly (~57% of bar) */
 .scale-bar__marker--hubble1923 {
   position: absolute;
   top: -3px;
@@ -398,12 +481,17 @@
 
 /* ── Hubble discrepancy note ── */
 .hubble-discrepancy-note {
-  margin-top: 1.4rem;
-  padding: 0.9rem 1rem;
+  margin-top: 1.25rem;
+  padding: 0.85rem 0.9rem; /* slightly tighter on mobile */
   border: 1px solid rgba(184, 74, 46, 0.2);
   border-left: 2px solid var(--rust);
   background: rgba(184, 74, 46, 0.04);
   animation: fadeUp 0.4s ease forwards;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .hubble-discrepancy-note { margin-top: 1.4rem; padding: 0.9rem 1rem; }
 }
 
 .hubble-discrepancy-note__legend {
@@ -426,7 +514,7 @@
   flex-shrink: 0;
 }
 
-.hdn-dot--1923  { background: var(--rust); }
+.hdn-dot--1923   { background: var(--rust); }
 .hdn-dot--modern { background: var(--star-blue); }
 .hdn-sep { color: #3a3830; }
 
@@ -437,7 +525,6 @@
   color: #8a8278;
 }
 
-/* ↑ was #2a2820 — essentially invisible on dark bg */
 .scale-bar-ticks {
   display: flex;
   justify-content: space-between;
