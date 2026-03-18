@@ -30,12 +30,6 @@ const STEPS = [
     label: 'Step 2 — Calculate absolute magnitude',
     summary: "Apply Leavitt's Period–Luminosity relation, as calibrated by Hertzsprung in 1913:",
     formula: 'M = -2.81 \\log_{10}(P) - 1.43',
-    // FACTUAL FIX: M = -2.81 × log10(31.415) - 1.43
-    // log10(31.415) = 1.4972
-    // -2.81 × 1.4972 = -4.207
-    // -4.207 - 1.43 = -5.637 ≈ -5.64 ✓
-    // Luminosity ratio: 10^((4.83 - (-5.64))/2.5) = 10^(10.47/2.5) = 10^4.188 ≈ 15,400×
-    // "roughly 16,000×" is the accurate rounded figure
     value:
       'M = -2.81 \\times \\log_{10}(31.415) - 1.43 = -2.81 \\times 1.497 - 1.43 \\approx -5.64',
     note: 'M = −5.64 means this star is roughly 16,000× more luminous than our Sun. Now we know its true brightness.',
@@ -80,7 +74,7 @@ export default function EquationSection() {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
     stepRefs.current.forEach((el) => { if (el) observer.observe(el); });
@@ -165,6 +159,13 @@ export default function EquationSection() {
             >
               <div className="step__number">{String(i + 1).padStart(2, '0')}</div>
 
+              {/*
+                step__body is the KEY addition.
+                As a grid child with min-width:0 and overflow:hidden,
+                it forms a proper containing block for KaTeX's wide equations.
+                Without it, KaTeX renders into the grid's implicit track and
+                blows the layout on any screen narrower than the equation.
+              */}
               <div className="step__body">
                 <div className="step__label">{step.label}</div>
                 <p className="step__summary">{step.summary}</p>

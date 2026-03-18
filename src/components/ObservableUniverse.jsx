@@ -43,9 +43,9 @@ const LEVELS = [
     range: '~100,000 light-years across',
     description: 'Our galaxy — a barred spiral containing 200–400 billion stars. We sit about 26,000 light-years from the galactic centre.',
     objects: [
-      { label: 'Galactic Centre', x: 0.5,  y: 0.5,  r: 14, color: '#ffcc60', glow: 'rgba(255,180,60,0.4)', type: 'core'   },
+      { label: 'Galactic Centre', x: 0.5,  y: 0.5,  r: 14, color: '#ffcc60', glow: 'rgba(86, 189, 201, 0.45)', type: 'core'   },
       { label: 'Sun (us)',        x: 0.72, y: 0.52, r: 4,  color: '#ffe090', glow: 'rgba(255,220,100,0.3)', type: 'sun'    },
-      { label: 'Sagittarius A*',  x: 0.5,  y: 0.5,  r: 3,  color: '#ffffff', glow: 'rgba(255,255,255,0.5)', type: 'bh'     },
+      { label: 'Sagittarius A*',  x: 0.5,  y: 0.5,  r: 3,  color: '#ffffff', glow: 'rgba(80, 58, 114, 0.71)', type: 'bh'     },
       { label: 'Orion Arm',       x: 0.72, y: 0.52, r: 0,  color: null,      glow: null,                   type: 'label'  },
     ],
     isMilkyWay: true,
